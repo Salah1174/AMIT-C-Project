@@ -109,7 +109,6 @@ Bool SDB_AddEntry() // Add Student to Database
         if (students[i].Course1_ID == students[i].Course2_ID)
         {
             printf("\nCourse is already added");
-            printf("%d", students[i].Course2_ID);
             printf("\nEnter Course 2 ID : ");
             scanf("%d", &students[i].Course2_ID);
         }
@@ -128,7 +127,6 @@ Bool SDB_AddEntry() // Add Student to Database
         if (students[i].Course3_ID == students[i].Course2_ID || students[i].Course3_ID == students[i].Course1_ID)
         {
             printf("\nCourse is already added");
-            printf("%d", students[i].Course3_ID);
             printf("\nEnter Course 3 ID : ");
             scanf("%d", &students[i].Course3_ID);
         }
@@ -151,7 +149,6 @@ void SDB_DeleteEntry(uint32 id) // Delete Student from Database
         {
             students[i] = DefaultSTD;
             found = True;
-            printf("\n%d", i);
         }
     }
     if (!found)

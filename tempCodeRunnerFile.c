@@ -1,1 +1,3 @@
-SDB_AddEntry();
+if (students[i].Student_ID != 0)
+            // {
+            // }

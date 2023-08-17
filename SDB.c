@@ -1,15 +1,15 @@
 #include "SDB.h"
 Bool SDB_IsFull() // Check if the database is full
 {
-    int counter = 0;
-    for (int i = 0; i < 10; i++)
+    uint8 counter = 0;
+    for (uint8 i = 0; i < 10; i++)
     {
         if (students[i].Student_ID == 0)
         {
             counter++;
         }
     }
-    if (counter < 10)
+    if (counter <= 10)
     {
         return False;
     }
@@ -19,11 +19,11 @@ Bool SDB_IsFull() // Check if the database is full
     }
 }
 
-uint8 SDB_GetUsedSize() 
+uint8 SDB_GetUsedSize() // Get Used Size of Database
 
 {
-    int counter = 0;
-    for (int i = 0; i < 10; i++)
+    uint8 counter = 0;
+    for (uint8 i = 0; i < 10; i++)
     {
         if (students[i].Student_ID != 0)
         {
@@ -33,26 +33,30 @@ uint8 SDB_GetUsedSize()
     return counter;
 }
 
-Bool SDB_AddEntry()
+Bool SDB_AddEntry() // Add Student to Database
 {
     Bool correctData = False;
-    int i = 0;
-    Bool added = False;
-    Bool zeroflag = False;
-    while (students[i].Student_ID != 0)
+
+    uint8 i = 0;
+
+    Bool added = False; // Flag to check if ID is already used for a student
+
+    Bool zeroflag = False; // Flag to Check if value entered is zero or less than
+
+    while (students[i].Student_ID != 0) // Search for first empty place in database
     {
         i++;
     }
-    int id;
+    uint32 id;
     printf("\nEnter Student ID : ");
     scanf("%d", &id);
-    while (!zeroflag)
+    while (!zeroflag) // Zero Check
     {
         Bool zero = False;
         if (id <= 0)
         {
             printf("\nID less than or equal zero");
-            zero = True;
+            zero = True; // ID is zero or less than
         }
         if (zero)
         {
@@ -61,21 +65,21 @@ Bool SDB_AddEntry()
         }
         else
         {
-            students[i].Student_ID = id;
+
             zeroflag = True;
         }
     }
 
-    while (!added)
+    while (!added) // ID Exist Check
     {
 
         Bool found = False;
-        for (int j = 0; j < 10; j++)
+        for (uint8 j = 0; j < 10; j++)
         {
             if (id == students[j].Student_ID)
             {
                 printf("\nID already exists");
-                found = True;
+                found = True; // ID exist
                 break;
             }
         }
@@ -90,7 +94,7 @@ Bool SDB_AddEntry()
             added = True;
         }
     }
-    printf("\n%d", students[i].Student_ID);
+    students[i].Student_ID = id;
     printf("\nEnter Student Year : ");
     scanf("%d", &students[i].Student_Year);
     printf("\nEnter Course 1 ID : ");
@@ -100,7 +104,7 @@ Bool SDB_AddEntry()
     printf("\nEnter Course 2 ID : ");
     scanf("%d", &students[i].Course2_ID);
     Bool same = False;
-    while (!same)
+    while (!same) // Check if student add same course twice
     {
         if (students[i].Course1_ID == students[i].Course2_ID)
         {
@@ -119,7 +123,7 @@ Bool SDB_AddEntry()
     printf("\nEnter Course 3 ID : ");
     scanf("%d", &students[i].Course3_ID);
     same = False;
-    while (!same)
+    while (!same) // Check if student add same course twice
     {
         if (students[i].Course3_ID == students[i].Course2_ID || students[i].Course3_ID == students[i].Course1_ID)
         {
@@ -138,12 +142,12 @@ Bool SDB_AddEntry()
     return True;
 }
 
-void SDB_DeleteEntry(uint32 id)
+void SDB_DeleteEntry(uint32 id) // Delete Student from Database
 {
     Bool found = False;
-    for (int i = 0; i < 10; i++)
+    for (uint8 i = 0; i < 10; i++)
     {
-        if (id == students[i].Student_ID)
+        if (id == students[i].Student_ID) // Check if student is in database
         {
             students[i] = DefaultSTD;
             found = True;
@@ -156,12 +160,12 @@ void SDB_DeleteEntry(uint32 id)
     }
 }
 
-Bool SDB_ReadEntry(uint32 id)
+Bool SDB_ReadEntry(uint32 id) // Print Data of Student
 {
     Bool found = False;
-    for (int i = 0; i < 10; i++)
+    for (uint8 i = 0; i < 10; i++)
     {
-        if (id == students[i].Student_ID)
+        if (id == students[i].Student_ID) // Check if student is in database
         {
             printf("\nYear: %d", students[i].Student_Year);
             printf("\nCourse 1 ID : %d", students[i].Course1_ID);
@@ -182,16 +186,27 @@ Bool SDB_ReadEntry(uint32 id)
     }
 }
 
-void SDB_GetList(uint8 *count, uint32 *list)
+void SDB_GetList(uint8 *count, uint32 *list) // Print all IDs in Database
 {
-}
-
-Bool SDB_IsIdExist(uint32 id)
-{
-    Bool found = False;
+    uint8 counter = 0;
     for (int i = 0; i < 10; i++)
     {
-        if (id == students[i].Student_ID)
+        if (students[i].Student_ID != 0)
+        {
+            list[i] = students[i].Student_ID; // Pass IDs to list
+            counter++;
+        }
+    }
+    *count = counter; // Count Number of IDs
+    printf("\nNumber of IDs = %d", *count);
+}
+
+Bool SDB_IsIdExist(uint32 id) // Check if ID exist in Database
+{
+    Bool found = False;
+    for (uint8 i = 0; i < 10; i++)
+    {
+        if (id == students[i].Student_ID) // Check if student is in database
         {
             found = True;
             return True;

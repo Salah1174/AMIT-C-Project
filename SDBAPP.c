@@ -4,7 +4,7 @@
 #include <string.h>
 void SDB_action(uint8 choice)
 {
-    int id;
+    uint32 id;
     switch (choice)
     {
     case 0:
@@ -30,7 +30,16 @@ void SDB_action(uint8 choice)
         SDB_ReadEntry(id);
         break;
     case 4:
-        // SDB_GetList();
+        uint8 count;
+        uint32 list[10];
+        SDB_GetList(&count, list);
+        for (uint8 i = 0; i < 10; i++)
+        {
+            if (students[i].Student_ID != 0)
+            {
+                printf("\nStudent %d ID = %d", i + 1, students[i].Student_ID);
+            }
+        }
         break;
     case 5:
         printf("\nEnter ID : ");
@@ -75,7 +84,7 @@ void SDB_action(uint8 choice)
 void SDB_APP()
 {
     Bool running = False;
-    int id;
+    uint32 id;
     while (True)
     {
         int choice;
